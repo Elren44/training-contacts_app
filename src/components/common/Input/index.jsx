@@ -28,11 +28,11 @@ const Input = ({
   };
 
   const getBorderColor = () => {
-    if (focused) {
-      return colors.primary;
-    }
     if (error) {
       return colors.danger;
+    }
+    if (focused) {
+      return colors.primary;
     } else {
       return colors.grey;
     }
@@ -40,7 +40,7 @@ const Input = ({
 
   return (
     <View style={styles.inputContainer}>
-      {label && <Text>{label}</Text>}
+      {label && <Text style={{color: colors.text}}>{label}</Text>}
       <View
         style={[
           styles.wrapper,
