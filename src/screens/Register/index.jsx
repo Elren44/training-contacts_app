@@ -1,22 +1,48 @@
 import {RegisterComponent} from "../../components/RegisterComponent";
-import {useState} from "react";
-import {values} from "@babel/runtime/regenerator";
+import {useCallback, useContext, useEffect, useState} from "react";
+import registerAction, {clearAuthState} from "../../context/actions/auth/register";
+import {GlobalContext} from "../../context/Provider";
+import {useFocusEffect, useNavigation} from "@react-navigation/native";
+import {LOGIN} from "../../constants/routeNames";
 
 const Register = () => {
 	const [form, setForm] = useState({});
 	const [errors, setErrors] = useState({});
+	const {navigate} = useNavigation()
+	const {
+		authDispatch,
+		authState: {error, loading, data},
+	} = useContext(GlobalContext);
 
+	useFocusEffect(
+		useCallback(() => {
+			return () => {
+				if (data || error) {
+					clearAuthState()(authDispatch);
+				}
+			};
+		}, [data, error]),
+	);
+
+
+
+	// console.log("authState ", form?.password.length)
 	const onChange = ({name, value}) => {
 		setForm({...form, [name]: value});
 
 		if (value !== "") {
-			if (name === "password" && form.password) {
-				checkAndAddError(form.password.length < 6, "password", "Пароль не может быть меньше 6 символов")
-				if (form.password.length >= 6) {
+			deleteError(name)
+			if (name === "password") {
+				if (value.length < 6) {
+						setErrors((prev) => {
+							return {
+								...prev, password: "Пароль не может быть меньше 6 символов"
+							}
+						})
+					} else {
 					deleteError("password")
 				}
-			} else {
-				deleteError(name)
+
 			}
 		} else {
 			setErrors((prev) => {
@@ -27,8 +53,8 @@ const Register = () => {
 		}
 	}
 
-	const checkAndAddError = (condition, name, text) => {
-		if(condition) {
+	const checkAndAddError = (name, text) => {
+		if (!form[name]) {
 			setErrors((prev) => {
 				return {
 					...prev, [name]: text
@@ -45,20 +71,24 @@ const Register = () => {
 	}
 
 	const onSubmit = () => {
-		console.log("form >> ", form)
+		// console.log("form >> ", form)
 		//validations
-		checkAndAddError(!form["userName"],"userName", "Пожалуйста введите ваш ник")
-		checkAndAddError(!form["firstName"],"firstName", "Пожалуйста введите ваше имя")
-		checkAndAddError(!form["lastName"], "lastName", "Пожалуйста введите вашу фамилию")
-		checkAndAddError(!form["email"],"email", "Пожалуйста введите вашу почту")
-		checkAndAddError(!form["password"],"password", "Пожалуйста введите ваш пароль")
+		checkAndAddError( "userName", "Пожалуйста введите ваш ник")
+		checkAndAddError( "firstName", "Пожалуйста введите ваше имя")
+		checkAndAddError( "lastName", "Пожалуйста введите вашу фамилию")
+		checkAndAddError( "email", "Пожалуйста введите вашу почту")
+		checkAndAddError( "password", "Пожалуйста введите ваш пароль")
 
-
+		if (Object.values(form).length === 5 && Object.values(form).every(item => item.trim().length > 0) &&
+			Object.values(errors).every(item => !item)) {
+			registerAction(form)(authDispatch)
+		}
 
 	}
 
 	return (
-		<RegisterComponent onSubmit={onSubmit} form={form} errors={errors} onChange={onChange}/>
+		<RegisterComponent onSubmit={onSubmit} form={form} errors={errors} error={error} loading={loading}
+		                   onChange={onChange}/>
 	);
 };
 
