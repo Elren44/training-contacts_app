@@ -1,9 +1,10 @@
-import {Text} from 'react-native';
+
 import {NavigationContainer} from '@react-navigation/native';
 import DrawerNavigator from './DrawerNavigator';
 import AuthNavigator from './AuthNavigator';
-import {useContext, useEffect, useState} from 'react';
+import {useContext, useState} from 'react';
 import {GlobalContext} from '../context/Provider';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AppNavContainer = () => {
   const {
@@ -11,6 +12,7 @@ const AppNavContainer = () => {
   } = useContext(GlobalContext);
 
   // console.log(state);
+
 
   return (
     <NavigationContainer>

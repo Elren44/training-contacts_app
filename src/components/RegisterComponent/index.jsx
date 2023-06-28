@@ -6,23 +6,25 @@ import Container from "../common/Container";
 import styles from "./styles"
 import {useNavigation} from "@react-navigation/native";
 import {LOGIN} from "../../constants/routeNames";
+import Message from "../common/Message";
 
 export const RegisterComponent = ({loading, error, form, errors, onChange, onSubmit}) => {
 	const {navigate} = useNavigation()
 
-	if (errors) {
-		console.log("error", errors)
-		console.log(form)
+	if (error) {
+		console.log(error)
 	}
 
 	return (
 		<Container>
 			<Image source={require("../../assets/images/logo.png")} style={styles.logoImage}/>
 			<View>
-				{/*{error && <Text>{error}</Text>}*/}
+
 				<Text style={styles.title}>Добро пожаловать в RNКонтакты</Text>
 				<Text style={styles.subtitle}>Создайте аккаунт</Text>
+
 				<View style={styles.form}>
+					{error?.error && <Message retry retryFn={() => {console.log("retry")}} message={error?.error} danger/>}
 					<Input
 						label="Ник"
 						value={form.userName}
@@ -71,7 +73,7 @@ export const RegisterComponent = ({loading, error, form, errors, onChange, onSub
 						placeholder="Введите пароль..."
 						error={errors.password ||error?.password?.[0]}
 					/>
-					<CustomButton loading={loading} disabled={loading} onPressButton={onSubmit} primary title="Подтвердить" />
+					<CustomButton loading={loading} disabled={loading} onPressButton={() => onSubmit()} primary title="Подтвердить" />
 				</View>
 				<View style={styles.registerBlock}>
 					<Text style={styles.registerInfo}>Уже есть аккаунт?</Text>

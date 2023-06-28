@@ -7,8 +7,9 @@ import styles from "./styles"
 import {useNavigation} from "@react-navigation/native";
 import {REGISTER} from "../../constants/routeNames";
 import colors from "../../assets/theme/colors";
+import Message from "../common/Message";
 
-export const LoginComponent = ({value, onChangeText}) => {
+export const LoginComponent = ({onSubmit, form, error, loading, onChange}) =>   {
 	const {navigate} = useNavigation()
 	return (
 		<Container>
@@ -17,11 +18,16 @@ export const LoginComponent = ({value, onChangeText}) => {
 
 				<Text style={styles.title}>Добро пожаловать в RNКонтакты</Text>
 				<Text style={styles.subtitle}>Вход в приложение</Text>
+
 				<View style={styles.form}>
+					{error && !error.error && <Message onDismiss={() => {}} danger message={"Неверные учетные данные"}/>}
+					{error?.error && <Message onDismiss message={error?.error} danger/>}
 					<Input
 					label="Имя пользователя"
-					value={value}
-					onChangeText={text => onChangeText(text)}
+					value={form.username}
+					onChangeText={(value) => {
+						onChange({name: "userName", value: value})
+					}}
 					// icon={<Text>HIDE</Text>}
 					// iconPosition="right"
 					placeholder="Введите имя..."
@@ -29,16 +35,23 @@ export const LoginComponent = ({value, onChangeText}) => {
 				/>
 					<Input
 						label="Пароль"
-						value={value}
-						onChangeText={text => onChangeText(text)}
+						value={form.password}
+						onChangeText={(value) => {
+							onChange({name: "password", value: value})
+						}}
 						icon={<Text>Show</Text>}
 						secureTextEntry={true}
 						iconPosition="right"
 						placeholder="Введите пароль..."
 						// error="Это поле обязательное"
 					/>
-					<CustomButton primary title="Подтвердить" onPressButton={() => {
-					}}/>
+					<CustomButton
+						disabled={loading}
+						primary
+						loading={loading}
+						title="Подтвердить"
+						onPressButton={onSubmit}
+					/>
 				</View>
 				<View style={styles.registerBlock}>
 					<Text style={styles.registerInfo}>Нужен новый аккаунт?</Text>

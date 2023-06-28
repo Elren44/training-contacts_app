@@ -1,21 +1,36 @@
-import {CLEAR_AUTH_STATE, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS} from "../../constants/actionTypes";
+import {
+  CLEAR_AUTH_STATE, LOGIN_FAIL,
+  LOGIN_LOADING, LOGIN_SUCCESS,
+  REGISTER_FAIL,
+  REGISTER_LOADING,
+  REGISTER_SUCCESS
+} from "../../constants/actionTypes";
 
 const authReducer = (state, {type, payload}) => {
   switch (type) {
+    case LOGIN_LOADING:
     case REGISTER_LOADING:
-      // console.log("state ", state)
       return {
         ...state,
-        loading: true
+        loading: true,
       };
+
     case REGISTER_SUCCESS:
-      // console.log("state ", state)
       return {
         ...state,
         loading: false,
-        data: payload
+        data: payload,
+      };
+
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: payload,
+        isLoggedIn: true,
       };
     case REGISTER_FAIL:
+    case LOGIN_FAIL:
       // console.log("state ", state)
       return {
         ...state,
@@ -27,7 +42,7 @@ const authReducer = (state, {type, payload}) => {
         ...state,
         loading: false,
         data: null,
-        error: null
+        error: null,
       };
 
     default:

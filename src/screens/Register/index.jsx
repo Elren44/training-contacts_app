@@ -16,13 +16,21 @@ const Register = () => {
 
 	useFocusEffect(
 		useCallback(() => {
+			// console.log("1111111111")
 			return () => {
+				// console.log("2222222")
 				if (data || error) {
-					clearAuthState()(authDispatch);
+					// clearAuthState()(authDispatch);
 				}
 			};
 		}, [data, error]),
 	);
+
+	useEffect(() => {
+		return () => {
+			clearAuthState()(authDispatch);
+		};
+	}, []);
 
 
 
@@ -71,7 +79,7 @@ const Register = () => {
 	}
 
 	const onSubmit = () => {
-		// console.log("form >> ", form)
+		// console.log("errors >> ", error)
 		//validations
 		checkAndAddError( "userName", "Пожалуйста введите ваш ник")
 		checkAndAddError( "firstName", "Пожалуйста введите ваше имя")
@@ -79,9 +87,14 @@ const Register = () => {
 		checkAndAddError( "email", "Пожалуйста введите вашу почту")
 		checkAndAddError( "password", "Пожалуйста введите ваш пароль")
 
-		if (Object.values(form).length === 5 && Object.values(form).every(item => item.trim().length > 0) &&
-			Object.values(errors).every(item => !item)) {
+		if (
+			Object.values(form).length === 5 &&
+			Object.values(form).every((item) => item.trim().length > 0) &&
+			Object.values(errors).every((item) => !item)
+		) {
+				// console.log("before", errors)
 			registerAction(form)(authDispatch)
+			// console.log("after", error)
 		}
 
 	}
