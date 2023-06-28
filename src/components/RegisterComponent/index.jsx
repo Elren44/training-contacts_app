@@ -11,9 +11,9 @@ import Message from "../common/Message";
 export const RegisterComponent = ({loading, error, form, errors, onChange, onSubmit}) => {
 	const {navigate} = useNavigation()
 
-	if (error) {
-		console.log(error)
-	}
+	// if (error) {
+	// 	console.log(error)
+	// }
 
 	return (
 		<Container>

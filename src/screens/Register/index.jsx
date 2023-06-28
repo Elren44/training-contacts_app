@@ -61,6 +61,7 @@ const Register = () => {
 		}
 	}
 
+
 	const checkAndAddError = (name, text) => {
 		if (!form[name]) {
 			setErrors((prev) => {
@@ -98,6 +99,8 @@ const Register = () => {
 		}
 
 	}
+
+
 
 	return (
 		<RegisterComponent onSubmit={onSubmit} form={form} errors={errors} error={error} loading={loading}

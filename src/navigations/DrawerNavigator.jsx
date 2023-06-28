@@ -7,7 +7,9 @@ const DrawerStack = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-    <DrawerStack.Navigator>
+    <DrawerStack.Navigator screenOptions={{
+      drawerType:'slide',
+    }}>
       <DrawerStack.Screen name={HOME_NAVIGATOR} component={HomeNavigator} />
     </DrawerStack.Navigator>
   );
