@@ -20,7 +20,7 @@ const Register = () => {
 			return () => {
 				// console.log("2222222")
 				if (data || error) {
-					// clearAuthState()(authDispatch);
+					clearAuthState()(authDispatch);
 				}
 			};
 		}, [data, error]),
@@ -94,7 +94,9 @@ const Register = () => {
 			Object.values(errors).every((item) => !item)
 		) {
 				// console.log("before", errors)
-			registerAction(form)(authDispatch)
+			registerAction(form)(authDispatch)((response) => {
+				navigate(LOGIN, {data: response})
+			})
 			// console.log("after", error)
 		}
 

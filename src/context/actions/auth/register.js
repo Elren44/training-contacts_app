@@ -1,13 +1,13 @@
 import axiosInstance from "../../../helpers/axiosInterceptor";
 import {CLEAR_AUTH_STATE, REGISTER_FAIL, REGISTER_LOADING, REGISTER_SUCCESS} from "../../../constants/actionTypes";
 
-export const clearAuthState=() =>dispatch=> {
+export const clearAuthState=() => dispatch => {
 dispatch({
 	type: CLEAR_AUTH_STATE
 })
 }
 
-const registerAction = ({email, password,userName: username, firstName: first_name, lastName: last_name}) => dispatch => {
+const registerAction = ({email, password,userName: username, firstName: first_name, lastName: last_name}) => dispatch => (onSuccess) => {
 	dispatch({
 		type: REGISTER_LOADING
 	})
@@ -19,6 +19,7 @@ const registerAction = ({email, password,userName: username, firstName: first_na
 			type: REGISTER_SUCCESS,
 			payload: resp.data
 		})
+		onSuccess(resp.data)
 	}).catch((err) => {
 		// console.log(err)
 		dispatch({

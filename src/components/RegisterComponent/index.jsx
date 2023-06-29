@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Image, Text, TouchableOpacity, View} from 'react-native'
 import Input from "../common/Input";
 import CustomButton from "../common/CustomButton";
@@ -10,7 +10,11 @@ import Message from "../common/Message";
 
 export const RegisterComponent = ({loading, error, form, errors, onChange, onSubmit}) => {
 	const {navigate} = useNavigation()
+	const [isSecurePassword, setIsSecurePassword] = useState(true)
 
+	const showPasswordToggle = () => {
+		setIsSecurePassword((prev) =>!prev);
+	}
 	// if (error) {
 	// 	console.log(error)
 	// }
@@ -67,8 +71,10 @@ export const RegisterComponent = ({loading, error, form, errors, onChange, onSub
 						onChangeText={(value) => {
 							onChange({name: "password", value: value})
 						}}
-						icon={<Text>Show</Text>}
-						secureTextEntry={true}
+						icon={<TouchableOpacity onPress={() => showPasswordToggle()}>
+							<Text>{isSecurePassword ? "Показать" : "Спрятать"}</Text>
+						</TouchableOpacity>}
+						secureTextEntry={isSecurePassword}
 						iconPosition="right"
 						placeholder="Введите пароль..."
 						error={errors.password ||error?.password?.[0]}

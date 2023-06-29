@@ -15,11 +15,13 @@ const HomeStack = createNativeStackNavigator();
 
 const HomeNavigator = () => {
   return (
-    <HomeStack.Navigator initialRouteName={CONTACTS_LIST}>
-      <HomeStack.Screen name={CONTACTS_LIST} component={Contacts} />
-      <HomeStack.Screen name={CONTACTS_DETAILS} component={ContactDetails} />
-      <HomeStack.Screen name={CREATE_CONTACT} component={CreateContact} />
-      <HomeStack.Screen name={SETTINGS} component={Settings} />
+    <HomeStack.Navigator initialRouteName={CONTACTS_LIST} screenOptions={{
+      headerTitleAlign: "center"
+    }}>
+      <HomeStack.Screen name={CONTACTS_LIST} component={Contacts} options={{title: "Контакты"}}/>
+      <HomeStack.Screen name={CONTACTS_DETAILS} component={ContactDetails} options={{title: "Информация о контакте"}}/>
+      <HomeStack.Screen name={CREATE_CONTACT} component={CreateContact} options={{title: "Создать контакт"}}/>
+      <HomeStack.Screen name={SETTINGS} component={Settings} options={{title: "Настройки"}}/>
     </HomeStack.Navigator>
   );
 };
