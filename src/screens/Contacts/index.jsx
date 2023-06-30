@@ -1,12 +1,28 @@
-import {View, Text, TouchableOpacity} from 'react-native';
-import Container from '../../components/common/Container';
+import {TouchableOpacity} from 'react-native';
 import {useNavigation} from "@react-navigation/native";
-import {useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import colors from "../../assets/theme/colors";
 import {Icon} from "../../components/common/Icon";
+import {ContactsComponent} from "../../components/common/ContactsComponent";
+import {GlobalContext} from "../../context/Provider";
+import getContacts from "../../context/actions/contacts/getContacts";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Contacts = () => {
   const {setOptions, toggleDrawer} = useNavigation()
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const {contactsDispatch, contactsState:{ getContacts: {data, loading}}} = useContext(GlobalContext);
+
+  useEffect(() => {
+    getContacts()(contactsDispatch)
+    // const getToken = async () => {
+    //   const token = await AsyncStorage.getItem('token')
+    //   return token
+    // }
+    // const token = getToken().then((token) => console.log(token))
+
+  }, [])
 
   useEffect(() => {
    setOptions({headerLeft: ()=> <TouchableOpacity
@@ -18,9 +34,7 @@ const Contacts = () => {
 
 
   return (
-    <Container>
-      <Text>Контакты</Text>
-    </Container>
+    <ContactsComponent modalVisible={modalVisible} setModalVisible={setModalVisible} data={data} loading={loading}/>
   );
 };
 

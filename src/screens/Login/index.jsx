@@ -1,7 +1,7 @@
 
 import {useContext, useEffect, useState} from 'react';
 import {LoginComponent} from "../../components/LoginComponent";
-import {useNavigation, useRoute} from "@react-navigation/native";
+import { useRoute} from "@react-navigation/native";
 import {GlobalContext} from "../../context/Provider";
 import loginUser from "../../context/actions/auth/loginUser";
 
