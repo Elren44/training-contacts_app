@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>ru</string>
 	<key>CFBundleDisplayName</key>
-	<string>training_contacts_app</string>
+	<string>Мои Контакты</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -70,5 +70,12 @@
       <string>Zocial.ttf</string>
       <string>Fontisto.ttf</string>
     </array>
+
+    <key>NSCameraUsageDescription</key>
+    <string>Contacts требует доступа к камере вашего телефона</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string></string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Contacts требует доступа к галлерее вашего телефона</string>
 </dict>
 </plist>

@@ -73,13 +73,14 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.training_contacts_app"
+    namespace "com.elren_contacts"
     defaultConfig {
-        applicationId "com.training_contacts_app"
+        applicationId "com.elren_contacts"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         debug {

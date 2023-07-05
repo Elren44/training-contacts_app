@@ -3,10 +3,10 @@ import {useNavigation} from "@react-navigation/native";
 import {useContext, useEffect, useState} from "react";
 import colors from "../../assets/theme/colors";
 import {Icon} from "../../components/common/Icon";
-import {ContactsComponent} from "../../components/common/ContactsComponent";
 import {GlobalContext} from "../../context/Provider";
 import getContacts from "../../context/actions/contacts/getContacts";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {ContactsComponent} from "../../components/ContactsComponent";
 
 const Contacts = () => {
   const {setOptions, toggleDrawer} = useNavigation()

@@ -1,4 +1,4 @@
-package com.training_contacts_app;
+package com.elren_contacts;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

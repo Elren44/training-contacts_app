@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TextInput} from 'react-native';
 import styles from './styles';
 import colors from '../../../assets/theme/colors';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const Input = ({
   value,
@@ -47,6 +48,7 @@ const Input = ({
           {borderColor: getBorderColor(), flexDirection: getFlexDirection()},
         ]}>
         <View>{icon && icon}</View>
+
         <TextInput
           style={[styles.textInput, style]}
           onChangeText={onChangeText}
