@@ -5,6 +5,7 @@ import createContact from '../../context/actions/contacts/createContact';
 import {GlobalContext} from '../../context/Provider';
 import {useNavigation} from '@react-navigation/native';
 import {CONTACTS_LIST} from '../../constants/routeNames';
+import uploadimage from '../../helpers/uploadimage';
 
 const CreateContact = () => {
   const {
@@ -14,6 +15,7 @@ const CreateContact = () => {
     },
   } = useContext(GlobalContext);
   const [form, setForm] = useState({});
+  const [isUploading, setIsUploading] = useState(false);
   const [localFile, setLocalFile] = useState(null);
   const {navigate} = useNavigation();
   const sheetRef = useRef(null);
@@ -23,9 +25,18 @@ const CreateContact = () => {
   };
 
   const onSubmit = () => {
-    createContact(form)(contactsDispatch)(() => {
-      navigate(CONTACTS_LIST);
-    });
+    if (localFile?.size) {
+      setIsUploading(true);
+      uploadimage(localFile)((url) => {
+        setIsUploading(false);
+        createContact({...form, contactPicture: url})(contactsDispatch)(() => {
+          navigate(CONTACTS_LIST);
+        });
+      })((err) => {
+        console.log('firebase error: ', err);
+        setIsUploading(false);
+      });
+    }
   };
   const toggleIsFavorite = () => {
     setForm({...form, isFavorite: !form.isFavorite});
@@ -55,7 +66,7 @@ const CreateContact = () => {
       onChangeText={onChangeText}
       form={form}
       setForm={setForm}
-      loading={loading}
+      loading={loading || isUploading}
       error={error}
       onSubmit={onSubmit}
       toggleIsFavorite={toggleIsFavorite}

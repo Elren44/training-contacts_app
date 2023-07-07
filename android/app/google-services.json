@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "214816209853",
+    "project_id": "elren-contacts",
+    "storage_bucket": "elren-contacts.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214816209853:android:e4fcc514d2ac0b50b6f0d4",
+        "android_client_info": {
+          "package_name": "com.elren_contacts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214816209853-4v5nfdlr8vebq702477siaqmlg66jo10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBve4xDghJ-2KFYI3CeAcbFupFUpWCGEDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214816209853-4v5nfdlr8vebq702477siaqmlg66jo10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
