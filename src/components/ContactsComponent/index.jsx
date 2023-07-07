@@ -11,7 +11,7 @@ import Message from '../common/Message';
 import colors from '../../assets/theme/colors';
 import {Icon} from '../common/Icon';
 import styles from './styles';
-import {CREATE_CONTACT} from '../../constants/routeNames';
+import {CONTACT_DETAILS, CREATE_CONTACT} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/native';
 
 // const defaultAvatar = "https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg"
@@ -29,7 +29,11 @@ const ContactsComponent = ({data, loading, sortBy}) => {
     const {contact_picture, first_name, last_name, phone_number, country_code} =
       item;
     return (
-      <TouchableOpacity style={styles.contactItemContainer}>
+      <TouchableOpacity
+        style={styles.contactItemContainer}
+        onPress={() => {
+          navigate(CONTACT_DETAILS, {item});
+        }}>
         <View style={styles.contactItem}>
           {contact_picture ? (
             <Image
@@ -73,6 +77,7 @@ const ContactsComponent = ({data, loading, sortBy}) => {
       </TouchableOpacity>
     );
   };
+
   return (
     <>
       <View style={{backgroundColor: colors.white, flex: 1}}>

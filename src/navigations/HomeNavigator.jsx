@@ -1,7 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {
-  CONTACTS_DETAILS,
+  CONTACT_DETAILS,
   CONTACTS_LIST,
   CREATE_CONTACT,
   LOGOUT,
@@ -28,7 +28,7 @@ const HomeNavigator = () => {
         options={{title: 'Контакты'}}
       />
       <HomeStack.Screen
-        name={CONTACTS_DETAILS}
+        name={CONTACT_DETAILS}
         component={ContactDetails}
         options={{title: 'Информация о контакте'}}
       />

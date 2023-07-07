@@ -33,14 +33,17 @@ const CreateContact = () => {
           navigate(CONTACTS_LIST);
         });
       })((err) => {
-        console.log('firebase error: ', err);
+        // console.log('firebase error: ', err);
         setIsUploading(false);
+      });
+    } else {
+      createContact(form)(contactsDispatch)(() => {
+        navigate(CONTACTS_LIST);
       });
     }
   };
   const toggleIsFavorite = () => {
     setForm({...form, isFavorite: !form.isFavorite});
-    console.log('isFavorite ', !form.isFavorite);
   };
 
   const closeSheet = () => {
@@ -58,7 +61,6 @@ const CreateContact = () => {
   const onFileSelected = (image) => {
     closeSheet();
     setLocalFile(image);
-    console.log('images ', image);
   };
 
   return (
