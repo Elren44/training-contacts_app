@@ -4,8 +4,10 @@ import {useContext, useEffect, useRef, useState} from 'react';
 import createContact from '../../context/actions/contacts/createContact';
 import {GlobalContext} from '../../context/Provider';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {CONTACTS_LIST} from '../../constants/routeNames';
+import {CONTACT_DETAILS, CONTACTS_LIST} from '../../constants/routeNames';
 import uploadimage from '../../helpers/uploadimage';
+import countryCodes from '../../utils/countryCodes';
+import editContact from '../../context/actions/contacts/editContact';
 
 const CreateContact = () => {
   const {
@@ -17,14 +19,47 @@ const CreateContact = () => {
   const [form, setForm] = useState({});
   const [isUploading, setIsUploading] = useState(false);
   const [localFile, setLocalFile] = useState(null);
-  const {navigate} = useNavigation();
+  const {navigate, setOptions} = useNavigation();
   const sheetRef = useRef(null);
   const {params} = useRoute();
 
   useEffect(() => {
     if (params?.contact) {
-      const {first_name: firstName} = params?.contact;
-      setForm(...form, firstName);
+      setOptions({title: 'Редактирование'});
+      const {
+        first_name: firstName,
+        phone_number: phoneNumber,
+        last_name: lastName,
+        is_favorite: isFavorite,
+        country_code: countryCode,
+      } = params?.contact;
+      setForm((prev) => {
+        return {
+          ...prev,
+          firstName,
+          isFavorite,
+          phoneNumber,
+          lastName,
+          phoneCode: countryCode,
+        };
+      });
+
+      const country = countryCodes.find((item) => {
+        return item.value.replace('+', '') === countryCode;
+      });
+
+      if (country) {
+        setForm((prev) => {
+          return {
+            ...prev,
+            countryCode: country.key.toUpperCase(),
+          };
+        });
+      }
+
+      if (params?.contact?.contact_picture) {
+        setLocalFile(params?.contact.contact_picture);
+      }
     }
   }, []);
 
@@ -33,21 +68,44 @@ const CreateContact = () => {
   };
 
   const onSubmit = () => {
-    if (localFile?.size) {
-      setIsUploading(true);
-      uploadimage(localFile)((url) => {
-        setIsUploading(false);
-        createContact({...form, contactPicture: url})(contactsDispatch)(() => {
+    if (params?.contact) {
+      if (localFile?.size) {
+        setIsUploading(true);
+        uploadimage(localFile)((url) => {
+          setIsUploading(false);
+          editContact(
+            {...form, contactPicture: url},
+            params?.contact.id,
+          )(contactsDispatch)((item) => {
+            navigate(CONTACT_DETAILS, {item});
+          });
+        })((err) => {
+          console.log('err :>> ', err);
+          setIsUploading(false);
+        });
+      } else {
+        editContact(form, params?.contact.id)(contactsDispatch)((item) => {
+          navigate(CONTACT_DETAILS, {item});
+        });
+      }
+    } else {
+      if (localFile?.size) {
+        setIsUploading(true);
+        uploadimage(localFile)((url) => {
+          setIsUploading(false);
+          createContact({...form, contactPicture: url})(contactsDispatch)(
+            () => {
+              navigate(CONTACTS_LIST);
+            },
+          );
+        })((err) => {
+          setIsUploading(false);
+        });
+      } else {
+        createContact(form)(contactsDispatch)(() => {
           navigate(CONTACTS_LIST);
         });
-      })((err) => {
-        // console.log('firebase error: ', err);
-        setIsUploading(false);
-      });
-    } else {
-      createContact(form)(contactsDispatch)(() => {
-        navigate(CONTACTS_LIST);
-      });
+      }
     }
   };
   const toggleIsFavorite = () => {

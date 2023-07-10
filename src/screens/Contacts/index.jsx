@@ -54,7 +54,7 @@ const Contacts = ({navigation}) => {
       );
       setTimeout(() => {
         navigate(CONTACT_DETAILS, {item: newContact});
-      }, 500);
+      }, 300);
     }
   }, [data.length]);
 

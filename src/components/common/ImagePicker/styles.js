@@ -1,19 +1,20 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../../assets/theme/colors';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   pickerOptions: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: scale(20),
     alignItems: 'center',
   },
   optionsWrapper: {
-    marginHorizontal: 20,
+    marginHorizontal: scale(20),
   },
   text: {
-    fontSize: 16,
+    fontSize: scale(16),
     color: colors.text,
-    paddingLeft: 15,
+    paddingLeft: scale(15),
   },
 });
 

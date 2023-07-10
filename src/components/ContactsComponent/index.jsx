@@ -13,13 +13,14 @@ import {Icon} from '../common/Icon';
 import styles from './styles';
 import {CONTACT_DETAILS, CREATE_CONTACT} from '../../constants/routeNames';
 import {useNavigation} from '@react-navigation/native';
+import {scale} from 'react-native-size-matters';
 
 // const defaultAvatar = "https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-12.jpg"
 const ContactsComponent = ({data, loading, sortBy}) => {
   const {navigate} = useNavigation();
   const ListEmptyComponent = () => {
     return (
-      <View style={{padding: 100}}>
+      <View style={{padding: scale(100)}}>
         <Message info message={'Нет данных.'} />
       </View>
     );
@@ -82,7 +83,7 @@ const ContactsComponent = ({data, loading, sortBy}) => {
     <>
       <View style={{backgroundColor: colors.white, flex: 1}}>
         {loading && (
-          <View style={{padding: 100}}>
+          <View style={{padding: scale(100)}}>
             <ActivityIndicator size={'large'} color={colors.primary} />
           </View>
         )}
@@ -126,7 +127,7 @@ const ContactsComponent = ({data, loading, sortBy}) => {
       <TouchableOpacity
         style={styles.createContactBtn}
         onPress={() => navigate(CREATE_CONTACT)}>
-        <Icon name="plus" size={20} color={colors.white} />
+        <Icon name="plus" size={scale(20)} color={colors.white} />
       </TouchableOpacity>
     </>
   );

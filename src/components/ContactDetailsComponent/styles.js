@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../assets/theme/colors';
+
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+
 export default StyleSheet.create({
   scrollView: {
     backgroundColor: colors.white,
@@ -8,7 +11,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   imageContainer: {
-    height: 300,
+    height: scale(300),
     width: '100%',
   },
   loading: {
@@ -16,20 +19,20 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   detailPhoto: {
-    height: 300,
+    height: scale(300),
     width: '100%',
     resizeMode: 'cover',
   },
   content: {
-    padding: 20,
+    padding: scale(20),
   },
   name: {
-    fontSize: 22,
+    fontSize: scale(22),
     color: colors.text,
   },
 
   hrLine: {
-    height: 10,
+    height: scale(10),
     borderColor: colors.grey,
     borderBottomWidth: 0.4,
   },
@@ -37,8 +40,8 @@ export default StyleSheet.create({
   topCallOptions: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: scale(20),
     alignItems: 'center',
   },
 
@@ -47,26 +50,26 @@ export default StyleSheet.create({
   },
 
   middleText: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: colors.primary,
-    paddingVertical: 5,
+    paddingVertical: verticalScale(5),
   },
 
   middleCallOptions: {
     flexDirection: 'row',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: scale(20),
   },
 
   phoneMobile: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: scale(20),
   },
 
   imageView: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
+    width: scale(150),
+    height: scale(150),
+    borderRadius: scale(100),
     alignSelf: 'center',
   },
 });

@@ -4,6 +4,7 @@ import {ScrollView, TouchableOpacity} from 'react-native';
 import colors from '../../assets/theme/colors';
 import {AppModal} from './../common/AppModal/index';
 import {Icon} from '../common/Icon';
+import {scale} from 'react-native-size-matters';
 
 const SettingsComponent = ({
   modalVisible,
@@ -18,7 +19,7 @@ const SettingsComponent = ({
         modalFooter={<></>}
         closeOnTouchOutside={false}
         modalBody={
-          <View style={{gap: 10}}>
+          <View style={{gap: scale(10)}}>
             {prefArr.map(({name, selected, onPress}) => (
               <View>
                 <TouchableOpacity
@@ -28,12 +29,12 @@ const SettingsComponent = ({
                     paddingVertical: 5,
                     alignItems: 'center',
                   }}>
-                  {selected && <Icon size={16} name="check" />}
+                  {selected && <Icon size={scale(16)} name="check" />}
                   <Text
                     style={{
-                      fontSize: 16,
+                      fontSize: scale(16),
                       color: colors.text,
-                      paddingLeft: selected ? 10 : 25,
+                      paddingLeft: selected ? scale(10) : scale(25),
                     }}>
                     {name}
                   </Text>
@@ -50,8 +51,8 @@ const SettingsComponent = ({
           return (
             <View key={title}>
               <TouchableOpacity onPress={onPress}>
-                <View style={{padding: 20, gap: 5}}>
-                  <Text style={{color: colors.text, fontSize: 16}}>
+                <View style={{padding: scale(20), gap: scale(5)}}>
+                  <Text style={{color: colors.text, fontSize: scale(16)}}>
                     {title}
                   </Text>
                   {subTitle && (

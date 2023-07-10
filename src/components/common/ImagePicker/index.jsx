@@ -5,16 +5,17 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {Icon} from '../Icon';
 import colors from '../../../assets/theme/colors';
 import ImagePickerCropper from 'react-native-image-crop-picker';
+import {scale} from 'react-native-size-matters';
 
 const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
   const options = [
     {
       name: 'Сделать фото',
-      icon: <Icon color={colors.grey} size={20} name="camera" />,
+      icon: <Icon color={colors.grey} size={scale(20)} name="camera" />,
       onPress: () =>
         ImagePickerCropper.openCamera({
-          width: 300,
-          height: 300,
+          width: scale(300),
+          height: scale(300),
           cropping: true,
           freeStyleCropEnabled: true,
         })
@@ -30,8 +31,8 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
       icon: <Icon color={colors.grey} size={20} name="image" />,
       onPress: () =>
         ImagePickerCropper.openPicker({
-          width: 300,
-          height: 300,
+          width: scale(300),
+          height: scale(300),
           cropping: true,
           freeStyleCropEnabled: true,
         })
@@ -47,14 +48,14 @@ const ImagePicker = React.forwardRef(({onFileSelected}, ref) => {
   return (
     <RBSheet
       ref={ref}
-      height={200}
+      height={scale(200)}
       openDuration={350}
       dragFromTopOnly
       closeOnDragDown
       customStyles={{
         container: {
-          borderTopRightRadius: 30,
-          borderTopLeftRadius: 30,
+          borderTopRightRadius: scale(30),
+          borderTopLeftRadius: scale(30),
         },
       }}>
       <View style={styles.optionsWrapper}>

@@ -9,6 +9,7 @@ import {DEFAULT_IMAGE_URI} from '../../constants/general';
 import axios from 'axios';
 import colors from '../../assets/theme/colors';
 import ImagePicker from '../common/ImagePicker';
+import {scale} from 'react-native-size-matters';
 
 export const CreateContactComponent = ({
   form,
@@ -28,7 +29,7 @@ export const CreateContactComponent = ({
     <View style={styles.container}>
       <Container>
         <Image
-          source={{uri: localFile?.path || DEFAULT_IMAGE_URI}}
+          source={{uri: localFile?.path || localFile || DEFAULT_IMAGE_URI}}
           style={styles.imageView}
         />
         <TouchableOpacity onPress={openSheet}>
@@ -38,7 +39,7 @@ export const CreateContactComponent = ({
           onChangeText={(value) => {
             onChangeText({name: 'firstName', value: value});
           }}
-          value={form.firstName}
+          value={form.firstName || ''}
           label="Имя"
           placeholder="Введите имя..."
           error={form.firstName ? null : error?.first_name?.[0]}
@@ -48,6 +49,7 @@ export const CreateContactComponent = ({
             onChangeText({name: 'lastName', value: value});
           }}
           label="Фамилия"
+          value={form.lastName || ''}
           placeholder="Введите фамилию..."
           error={form.lastName ? null : error?.last_name?.[0]}
         />
@@ -57,7 +59,9 @@ export const CreateContactComponent = ({
               withFilter
               withFlag={true}
               placeholder={
-                <Text style={{fontSize: 16, lineHeight: 16}}>Выбрать код</Text>
+                <Text style={{fontSize: scale(13), lineHeight: scale(16)}}>
+                  Выбрать код
+                </Text>
               }
               countryCode={form.countryCode || undefined}
               withCountryNameButton={false}
@@ -73,8 +77,9 @@ export const CreateContactComponent = ({
             />
           }
           iconPosition={'left'}
-          style={{paddingLeft: 10}}
+          style={{paddingLeft: scale(10)}}
           visible
+          value={form.phoneNumber || ''}
           label="Телефон"
           onChangeText={(value) => {
             onChangeText({name: 'phoneNumber', value: value});
@@ -89,7 +94,7 @@ export const CreateContactComponent = ({
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 14, color: colors.text}}>
+          <Text style={{fontSize: scale(14), color: colors.text}}>
             Добавить в избранное
           </Text>
           <Switch

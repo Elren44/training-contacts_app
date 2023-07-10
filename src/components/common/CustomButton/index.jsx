@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import colors from '../../../assets/theme/colors';
+import {scale} from 'react-native-size-matters';
 
 const CustomButton = ({
   title,
@@ -9,6 +10,7 @@ const CustomButton = ({
   loading,
   secondary,
   primary,
+  style,
   danger,
   onPressButton,
 }) => {
@@ -34,7 +36,7 @@ const CustomButton = ({
     <TouchableOpacity
       onPress={() => onPressButton()}
       disabled={disabled}
-      style={[styles.wrapper, {backgroundColor: getBgColor()}]}>
+      style={[styles.wrapper, {backgroundColor: getBgColor()}, style]}>
       <View style={styles.loaderSection}>
         {loading && (
           <ActivityIndicator
@@ -42,7 +44,11 @@ const CustomButton = ({
           />
         )}
         {title && (
-          <Text style={{color: disabled ? 'black' : colors.white}}>
+          <Text
+            style={{
+              color: disabled ? 'black' : colors.white,
+              fontSize: scale(12),
+            }}>
             {loading ? 'Пожалуйста подождите...' : title}
           </Text>
         )}

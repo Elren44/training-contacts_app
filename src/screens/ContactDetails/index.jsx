@@ -1,6 +1,6 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
 import ContactDetailsComponent from '../../components/ContactDetailsComponent';
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -13,20 +13,25 @@ import colors from '../../assets/theme/colors';
 import {GlobalContext} from '../../context/Provider';
 import deleteContact from '../../context/actions/contacts/deleteContact';
 import {navigate} from '../../navigations/SideMenu/RootNavigator';
-import {CONTACTS_LIST} from '../../constants/routeNames';
+import {CONTACT_DETAILS, CONTACTS_LIST} from '../../constants/routeNames';
 import logoutUser from '../../context/actions/auth/logoutUser';
+import uploadimage from '../../helpers/uploadimage';
+import editContact from '../../context/actions/contacts/editContact';
+import {scale} from 'react-native-size-matters';
 
 const ContactDetails = () => {
   const {params: {item = {}} = {}} = useRoute();
-  // console.log(item);
-
+  const sheetRef = useRef(null);
+  const [localFile, setLocalFile] = useState(null);
+  const [updatingImage, setUpdatingImage] = useState(false);
+  const [uploadSucceeded, setUploadSucceeded] = useState(false);
+  const {setOptions} = useNavigation();
   const {
     contactsDispatch,
     contactsState: {
       deleteContact: {loading},
     },
   } = useContext(GlobalContext);
-  const {setOptions} = useNavigation();
 
   useEffect(() => {
     if (item) {
@@ -34,10 +39,10 @@ const ContactDetails = () => {
         title: `${item.first_name} ${item.last_name}`,
         headerRight: () => {
           return (
-            <View style={{flexDirection: 'row', gap: 10}}>
+            <View style={{flexDirection: 'row', gap: scale(10)}}>
               <TouchableOpacity>
                 <Icon
-                  size={21}
+                  size={scale(21)}
                   color={colors.grey}
                   type="material"
                   name={item.is_favorite ? 'star' : 'star-border'}
@@ -69,7 +74,7 @@ const ContactDetails = () => {
                 ) : (
                   <Icon
                     color={colors.grey}
-                    size={21}
+                    size={scale(21)}
                     type="material"
                     name="delete"
                   />
@@ -82,7 +87,62 @@ const ContactDetails = () => {
     }
   }, [item, loading]);
 
-  return <ContactDetailsComponent contact={item} />;
+  const closeSheet = () => {
+    if (sheetRef.current) {
+      sheetRef.current.close();
+    }
+  };
+
+  const openSheet = () => {
+    if (sheetRef.current) {
+      sheetRef.current.open();
+    }
+  };
+
+  const onFileSelected = (image) => {
+    closeSheet();
+    setLocalFile(image);
+    setUpdatingImage(true);
+    uploadimage(image)((url) => {
+      const {
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        country_code: phoneCode,
+        is_favorite: isFavorite,
+      } = item;
+      editContact(
+        {
+          firstName,
+          lastName,
+          phoneNumber,
+          phoneCode,
+          isFavorite,
+          contactPicture: url,
+        },
+        item.id,
+      )(contactsDispatch)((item) => {
+        setUpdatingImage(false);
+        setUploadSucceeded(true);
+        // navigate(CONTACT_DETAILS, {item});
+      });
+    })((err) => {
+      console.log('err :>> ', err);
+      setUpdatingImage(false);
+    });
+  };
+
+  return (
+    <ContactDetailsComponent
+      sheetRef={sheetRef}
+      onFileSelected={onFileSelected}
+      openSheet={openSheet}
+      contact={item}
+      localFile={localFile}
+      updatingImage={updatingImage}
+      uploadSucceeded={uploadSucceeded}
+    />
+  );
 };
 
 export default ContactDetails;

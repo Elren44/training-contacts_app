@@ -3,6 +3,7 @@ import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import styles from './styles';
 import {Icon} from '../Icon';
 import PropTypes from 'prop-types';
+import {scale} from 'react-native-size-matters';
 
 export const AppModal = ({
   modalVisible,
@@ -25,7 +26,7 @@ export const AppModal = ({
           <ScrollView>
             <View style={styles.header}>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Icon name="close" size={25} />
+                <Icon name="close" size={scale(25)} />
               </TouchableOpacity>
 
               <Text style={styles.title}>{title || 'Контакты'}</Text>
@@ -61,5 +62,5 @@ AppModal.propTypes = {
 };
 
 AppModal.defaultProps = {
-  closeOnTouchOutside: true,
+	closeOnTouchOutside: true,
 };

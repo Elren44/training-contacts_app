@@ -27,7 +27,7 @@ export default (file) => (onSuccess) => (onError) => {
       onSuccess(url);
       console.log('url', url);
     })
-    .then((error) => {
+    .catch((error) => {
       onError(error);
     });
 };
