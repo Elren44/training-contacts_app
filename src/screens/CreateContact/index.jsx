@@ -1,9 +1,9 @@
 import {View, Text} from 'react-native';
 import {CreateContactComponent} from '../../components/CreateContactComponent';
-import {useContext, useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import createContact from '../../context/actions/contacts/createContact';
 import {GlobalContext} from '../../context/Provider';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {CONTACTS_LIST} from '../../constants/routeNames';
 import uploadimage from '../../helpers/uploadimage';
 
@@ -19,6 +19,14 @@ const CreateContact = () => {
   const [localFile, setLocalFile] = useState(null);
   const {navigate} = useNavigation();
   const sheetRef = useRef(null);
+  const {params} = useRoute();
+
+  useEffect(() => {
+    if (params?.contact) {
+      const {first_name: firstName} = params?.contact;
+      setForm(...form, firstName);
+    }
+  }, []);
 
   const onChangeText = ({name, value}) => {
     setForm({...form, [name]: value});

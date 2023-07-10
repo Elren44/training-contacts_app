@@ -38,6 +38,7 @@ export const CreateContactComponent = ({
           onChangeText={(value) => {
             onChangeText({name: 'firstName', value: value});
           }}
+          value={form.firstName}
           label="Имя"
           placeholder="Введите имя..."
           error={form.firstName ? null : error?.first_name?.[0]}
